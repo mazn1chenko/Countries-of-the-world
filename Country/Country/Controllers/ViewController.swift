@@ -35,7 +35,7 @@ class ViewController : UIViewController{
         super.viewDidLoad()
         
         
-        title = "Country List"
+        title = "Countrys"
         view.backgroundColor = .systemBackground
         
 
