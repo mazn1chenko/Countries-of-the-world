@@ -17,7 +17,9 @@ class CountryTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
         setup()
+        
         layout()
     }
     
@@ -27,24 +29,36 @@ class CountryTableViewCell: UITableViewCell {
     
     func setup() {
         flag.translatesAutoresizingMaskIntoConstraints = false
-        flag.image = UIImage(named: "BTC")
+        flag.image = UIImage(named: "*flag*")
+        flag.layer.borderWidth = 0
+        flag.layer.masksToBounds = false
+        flag.layer.borderColor = UIColor.black.cgColor
+        flag.layer.cornerRadius = 25
+        flag.clipsToBounds = true
         
-        nameOfCountry.text = "LOL"
-        nameOfCountry.font = UIFont.systemFont(ofSize: 14)
+        nameOfCountry.text = "*countryName*"
+        nameOfCountry.font = UIFont(name: "Inter-Regular", size: 18)
         nameOfCountry.adjustsFontSizeToFitWidth = true
+        nameOfCountry.translatesAutoresizingMaskIntoConstraints = false
     }
     
     func layout() {
         addSubview(flag)
+
         addSubview(nameOfCountry)
         
         
-        nameOfCountry.frame = CGRectMake(90.0, 25.0, 100.0, 30.0)
+        NSLayoutConstraint.activate([nameOfCountry.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 70),
+                                     nameOfCountry.centerYAnchor.constraint(equalTo: centerYAnchor),
+                                     nameOfCountry.heightAnchor.constraint(equalToConstant: 25),
+                                     nameOfCountry.widthAnchor.constraint(equalToConstant: 150)
+        
+        ])
         
         NSLayoutConstraint.activate([flag.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
                                      flag.centerYAnchor.constraint(equalTo: centerYAnchor),
                                      flag.heightAnchor.constraint(equalToConstant: 50),
-                                     flag.widthAnchor.constraint(equalToConstant: 50),
+                                     flag.widthAnchor.constraint(equalToConstant: 50)
 
                                     ])
         
