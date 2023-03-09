@@ -22,6 +22,7 @@ class ViewController : UIViewController{
     let networkManager = ApiManager()
     
     let searchController = UISearchController(searchResultsController: nil)
+    
     var searchBarIsEmpty: Bool {
         guard let text = searchController.searchBar.text else {return false}
         return text.isEmpty
@@ -36,7 +37,7 @@ class ViewController : UIViewController{
         
         
         title = "Countries"
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .lightGray
         
 
                 
@@ -53,6 +54,7 @@ class ViewController : UIViewController{
             case .failure(let error):
                 print("Error:\(error.localizedDescription)")
             }
+            
         }
         setup()
         layout()
@@ -148,6 +150,7 @@ extension ViewController: UITableViewDataSource {
         if isFiltering {
             return filteredArrayCountry.count
         }
+        print(countryArrayAPI.count)
         return countryArrayAPI.count
         
     }

@@ -18,6 +18,8 @@ class CountryTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        
+        backgroundColor = .lightGray
         setup()
         
         layout()
@@ -30,7 +32,7 @@ class CountryTableViewCell: UITableViewCell {
     func setup() {
         flag.translatesAutoresizingMaskIntoConstraints = false
         flag.image = UIImage(named: "*flag*")
-        flag.layer.borderWidth = 0
+        flag.layer.borderWidth = 1
         flag.layer.masksToBounds = false
         flag.layer.borderColor = UIColor.black.cgColor
         flag.layer.cornerRadius = 25
@@ -46,7 +48,6 @@ class CountryTableViewCell: UITableViewCell {
         addSubview(flag)
 
         addSubview(nameOfCountry)
-        
         
         NSLayoutConstraint.activate([nameOfCountry.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 70),
                                      nameOfCountry.centerYAnchor.constraint(equalTo: centerYAnchor),
