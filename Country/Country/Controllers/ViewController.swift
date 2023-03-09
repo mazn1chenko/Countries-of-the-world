@@ -79,10 +79,9 @@ class ViewController : UIViewController{
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search"
+        searchController.searchBar.searchTextField.backgroundColor = .systemGray3
         navigationItem.searchController = searchController
         definesPresentationContext = true
-        
-
         
     }
     
@@ -130,7 +129,7 @@ extension ViewController: UITableViewDelegate {
             currentCountry = countryArrayAPI[indexPath.row]
         }
         
-        countryInfo.setCountryInfo(name: (currentCountry.name?.common)!, imageOfCountry: (currentCountry.flags?.png)!, mapsLocation: (currentCountry.maps?.googleMaps)!, language: (currentCountry.languages)!, region: (currentCountry.region?.rawValue)!)
+        countryInfo.setCountryInfo(name: (currentCountry.name?.common)!, imageOfCountry: (currentCountry.flags?.png)!, mapsLocation: (currentCountry.maps?.googleMaps)!, language: (currentCountry.languages)!, region: (currentCountry.region?.rawValue)!, area: (currentCountry.area)!, subRegion: (currentCountry.subregion)!, capital: (currentCountry.capital)!)
                 
         navigationController?.pushViewController(countryInfo, animated: true)
         

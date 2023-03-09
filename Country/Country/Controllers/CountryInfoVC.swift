@@ -22,13 +22,16 @@ class CountryInfoVC: UIViewController {
     var languageLabel = UILabel()
     var regionOfCountry = UILabel()
     var mapsButton = UIButton()
+    var areaLabel = UILabel()
+    var subRegionLabel = UILabel()
     var mapsText : String = ""
+    var capitalLabel = UILabel()
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .lightGray
                 
         setup()
         layout()
@@ -40,10 +43,19 @@ class CountryInfoVC: UIViewController {
         flagOfCountryImage.translatesAutoresizingMaskIntoConstraints = false
         languageLabel.translatesAutoresizingMaskIntoConstraints = false
         regionOfCountry.translatesAutoresizingMaskIntoConstraints = false
-        
+        areaLabel.translatesAutoresizingMaskIntoConstraints = false
+        subRegionLabel.translatesAutoresizingMaskIntoConstraints = false
+        capitalLabel.translatesAutoresizingMaskIntoConstraints = false
+
         mapsButton.translatesAutoresizingMaskIntoConstraints = false
-        mapsButton.backgroundColor = .lightGray
+        mapsButton.backgroundColor = .gray
         mapsButton.setTitle("Google Maps", for: .normal)
+        mapsButton.contentHorizontalAlignment = .center
+        mapsButton.clipsToBounds = true
+        mapsButton.layer.cornerRadius = 5
+        
+        
+        
     }
 
     
@@ -53,6 +65,9 @@ class CountryInfoVC: UIViewController {
         view.addSubview(languageLabel)
         view.addSubview(regionOfCountry)
         view.addSubview(mapsButton)
+        view.addSubview(areaLabel)
+        view.addSubview(subRegionLabel)
+        view.addSubview(capitalLabel)
 
         
         NSLayoutConstraint.activate([flagOfCountryImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -71,17 +86,41 @@ class CountryInfoVC: UIViewController {
         NSLayoutConstraint.activate([regionOfCountry.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 160 + 50),
                                      regionOfCountry.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 25),
                                      regionOfCountry.heightAnchor.constraint(equalToConstant: 25),
-                                     regionOfCountry.widthAnchor.constraint(equalToConstant: 200)
+                                     regionOfCountry.widthAnchor.constraint(equalToConstant: 250)
                                     ])
         
-        NSLayoutConstraint.activate([mapsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 160 + 75),
+
+        
+        NSLayoutConstraint.activate([areaLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 160 + 75),
+                                     areaLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 25),
+                                     areaLabel.heightAnchor.constraint(equalToConstant: 25),
+                                     areaLabel.widthAnchor.constraint(equalToConstant: 250)
+                                    ])
+        
+        
+        NSLayoutConstraint.activate([subRegionLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 160 + 100),
+                                     subRegionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 25),
+                                     subRegionLabel.heightAnchor.constraint(equalToConstant: 25),
+                                     subRegionLabel.widthAnchor.constraint(equalToConstant: 250)
+                                    ])
+        
+        
+        
+        NSLayoutConstraint.activate([capitalLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 160 + 125),
+                                     capitalLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 25),
+                                     capitalLabel.heightAnchor.constraint(equalToConstant: 25),
+                                     capitalLabel.widthAnchor.constraint(equalToConstant: 250)
+                                    ])
+        
+        
+        
+        NSLayoutConstraint.activate([mapsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 160 + 150),
                                      mapsButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 25),
                                      mapsButton.heightAnchor.constraint(equalToConstant: 25),
-                                     mapsButton.widthAnchor.constraint(equalToConstant: 200)
+                                     mapsButton.widthAnchor.constraint(equalToConstant: 120)
                                     ])
-        
         mapsButton.addTarget(self, action: #selector(mapsLocation), for: .touchUpInside)
-
+        
     }
     
     @objc func mapsLocation(action : UIButton){
@@ -89,7 +128,7 @@ class CountryInfoVC: UIViewController {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
-    func setCountryInfo(name: String, imageOfCountry: String?, mapsLocation: String, language: [String: String], region: String){
+    func setCountryInfo(name: String, imageOfCountry: String?, mapsLocation: String, language: [String: String], region: String, area: Double, subRegion: String, capital: [String]){
       
         nameOfCountryLabel.text = name
         navigationItem.title = name
@@ -98,6 +137,10 @@ class CountryInfoVC: UIViewController {
         }
         regionOfCountry.text = "Region: \(region)"
         mapsText = mapsLocation
+        areaLabel.text = "Area: \(area) km2"
+        subRegionLabel.text = "Sub Region: \(subRegion)"
+        var cap = capital.first
+        capitalLabel.text = "Capital: \(cap!)"
         
         if let imageAPI = imageOfCountry {
             let API = imageAPI

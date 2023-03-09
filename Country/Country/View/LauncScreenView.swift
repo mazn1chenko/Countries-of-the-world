@@ -20,7 +20,7 @@ class LaunchScreenView: ViewController{
     override func viewDidLoad(){
         super.viewDidLoad()
         
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .yellow
         
         settingsLaunchScreenIcon()
         settingsProgressView()
@@ -74,6 +74,10 @@ class LaunchScreenView: ViewController{
         progressView.trackTintColor = .blue
         progressView.observedProgress = progress
         
+        progress.cancellationHandler = {
+            print("progress was stopped")
+        }
+        
         NSLayoutConstraint.activate([
             progressView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             progressView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 40),
@@ -84,11 +88,8 @@ class LaunchScreenView: ViewController{
         
         //Settings timer for progressView
         
-        
         var count = countryArrayAPI.count
         
-        while count < 10 {
-            
             Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true){ timer in
                 if self.progress.isCancelled {
                     timer.invalidate()
@@ -99,9 +100,8 @@ class LaunchScreenView: ViewController{
                 }
                 
                 self.progress.completedUnitCount = Int64(count)
-                
+                count += 1
             }
-        }
     }
     
 }
