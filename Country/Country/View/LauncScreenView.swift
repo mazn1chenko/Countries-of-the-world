@@ -14,7 +14,7 @@ class LaunchScreenView: ViewController{
     let launchTextLabel = UILabel()
     
     let progressView = UIProgressView()
-    
+        
     let progress = Progress(totalUnitCount: 11)
     
     override func viewDidLoad(){
@@ -87,9 +87,32 @@ class LaunchScreenView: ViewController{
         ])
         
         //Settings timer for progressView
+
+                    
+        var progressCount = 0
+
         
-        var count = countryArrayAPI.count
         
+        networkManager.obtainsCounry { [weak self] (result) in
+            
+            switch result {
+            case .success(let country):
+                DispatchQueue.main.async {
+                    progressCount = country.count
+                    print(progressCount)
+
+                }
+                
+            case .failure(let error):
+                print("Error:\(error.localizedDescription)")
+            }
+            
+        }
+
+        if progressCount > 0 {
+            
+            var count = 0
+
             Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true){ timer in
                 if self.progress.isCancelled {
                     timer.invalidate()
@@ -100,8 +123,13 @@ class LaunchScreenView: ViewController{
                 }
                 
                 self.progress.completedUnitCount = Int64(count)
+                print(count)
                 count += 1
+                
+                
             }
+        
+        }
     }
-    
+
 }

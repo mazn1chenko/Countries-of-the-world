@@ -149,7 +149,7 @@ extension ViewController: UITableViewDataSource {
         if isFiltering {
             return filteredArrayCountry.count
         }
-        print(countryArrayAPI.count)
+        //print(countryArrayAPI.count)
         return countryArrayAPI.count
         
     }

@@ -139,7 +139,7 @@ class CountryInfoVC: UIViewController {
         mapsText = mapsLocation
         areaLabel.text = "Area: \(area) km2"
         subRegionLabel.text = "Sub Region: \(subRegion)"
-        var cap = capital.first
+        let cap = capital.first
         capitalLabel.text = "Capital: \(cap!)"
         
         if let imageAPI = imageOfCountry {
