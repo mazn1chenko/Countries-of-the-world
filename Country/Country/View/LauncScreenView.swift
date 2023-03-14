@@ -7,16 +7,22 @@
 
 import UIKit
 
-class LaunchScreenView: ViewController{
+class LaunchScreenView: UIViewController{
     
     let launchIconImageView = UIImageView()
     
     let launchTextLabel = UILabel()
     
     let progressView = UIProgressView()
-        
+    
     let progress = Progress(totalUnitCount: 11)
     
+    let button = UIButton()
+    
+    var countingArray = Int(0)
+    
+    let networkManager = ApiManager()
+        
     override func viewDidLoad(){
         super.viewDidLoad()
         
@@ -26,8 +32,8 @@ class LaunchScreenView: ViewController{
         settingsProgressView()
         settingsLaunchScreenNameLabel()
         
-        
     }
+    
     
     func settingsLaunchScreenIcon(){
         
@@ -37,13 +43,13 @@ class LaunchScreenView: ViewController{
         
         launchIconImageView.image = UIImage(named: "icon")
         launchIconImageView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         NSLayoutConstraint.activate([
             launchIconImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             launchIconImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -120),
             launchIconImageView.widthAnchor.constraint(equalToConstant: sizeOfIcon),
             launchIconImageView.heightAnchor.constraint(equalToConstant: sizeOfIcon)
-        
+            
         ])
     }
     
@@ -63,7 +69,6 @@ class LaunchScreenView: ViewController{
             launchTextLabel.widthAnchor.constraint(equalToConstant: 350)
         ])
     }
-    
     func settingsProgressView(){
         
         view.addSubview(progressView)
@@ -74,8 +79,8 @@ class LaunchScreenView: ViewController{
         progressView.trackTintColor = .blue
         progressView.observedProgress = progress
         
-        progress.cancellationHandler = {
-            print("progress was stopped")
+        self.progress.cancellationHandler = {
+            print("Ended")
         }
         
         NSLayoutConstraint.activate([
@@ -87,49 +92,45 @@ class LaunchScreenView: ViewController{
         ])
         
         //Settings timer for progressView
-
+        let progressCount = 0
+        
+        if progressCount == progressCount {
+                        
+            networkManager.obtainsCounry { [weak self] (result) in
+                
+                switch result {
+                case .success(let country):
+                    self?.countingArray = country.count
+                    print(" counting array network \(self?.countingArray)")
                     
-        var progressCount = 0
-
-        
-        
-        networkManager.obtainsCounry { [weak self] (result) in
-            
-            switch result {
-            case .success(let country):
-                DispatchQueue.main.async {
-                    progressCount = country.count
-                    print(progressCount)
-
+                case .failure(let error):
+                    print("Error:\(error.localizedDescription)")
                 }
                 
-            case .failure(let error):
-                print("Error:\(error.localizedDescription)")
-            }
-            
-        }
-
-        if progressCount > 0 {
-            
-            var count = 0
-
-            Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true){ timer in
-                if self.progress.isCancelled {
-                    timer.invalidate()
+                var count = 0
+                
+                Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true){ timer in
+                    if self!.progress.isCancelled {
+                        timer.invalidate()
+                    }
+                    
+                    if self!.progress.fractionCompleted == 0.4{
+                        self!.progress.cancel()
+                    }
+                    
+                    self!.progress.completedUnitCount = Int64(self!.countingArray)
+                    if self!.countingArray > 0{
+                        timer.invalidate()
+                        //Thread.sleep(forTimeInterval: 1.4)
+                        self!.navigationController?.pushViewController(ViewController(), animated: true)
+                    }
+                    
+                    //print(count)
+                    count += 1
+                    print(" progress count \(progressCount)")
                 }
-                
-                if self.progress.fractionCompleted == 1{
-                    self.progress.cancel()
-                }
-                
-                self.progress.completedUnitCount = Int64(count)
-                print(count)
-                count += 1
-                
                 
             }
-        
         }
     }
-
 }

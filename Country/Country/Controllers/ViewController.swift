@@ -35,12 +35,12 @@ class ViewController : UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         title = "Countries"
         view.backgroundColor = .lightGray
         
+        navigationItem.hidesBackButton = true
 
-                
+
         networkManager.obtainsCounry { [weak self] (result) in
             
             switch result {
